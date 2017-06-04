@@ -1,0 +1,31 @@
+<h1 class="text-center">Survey Builder</h1>
+<hr>
+<h4 class="text-center">
+  <span class="text-muted">1. Build Survey</span> |
+  <span>2. Add Questions</span>
+</h4>
+<p class="lead">Next, fill in the questions</p>
+
+<div class="text-muted">
+  <h3>Title</h3>
+  <p><%= @survey.title %></p>
+
+  <h3>Description</h3>
+  <p><%= @survey.description %></p>
+</div>
+
+<hr>
+
+<h3 class="text-center">Add a Multiple Choice Question</h3>
+<%= render :partial => "shared/form_errors", :locals => {:obj => @question} %>
+<% if @setup_done %>
+  <%= render :partial => "add_question_text",
+             :locals => {:question => @question}
+  %>
+<% else %>
+  <%= render :partial => "select_options", :locals => {:question => @question} %>
+<% end %>
+
+<%= render :partial => "existing_questions",
+           :locals => {survey: @survey, survey_questions: @survey_questions} 
+%>

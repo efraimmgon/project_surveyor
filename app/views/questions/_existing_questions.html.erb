@@ -1,0 +1,44 @@
+<hr>
+
+<% if survey_questions.empty? %>
+  <div class="text-muted">
+      <h3>Existing Questions:</h3>
+      <p>There are no questions yet!</p>
+  </div>
+<% else %>
+  <h3>Existing Questions:</h3>
+  <!-- QUESTIONS -->
+  <% survey_questions.each_with_index do |question, i| %>
+    <% if question.persisted? %>
+      <p><b><%= "#{i + 1}. #{question.body}" %></b></p>
+      <p>
+        <% if question.is_required %>
+          <em>Required.</em>
+        <% end %>
+        <% if question.input_type == "radio" %>
+          <em>Select one.</em>
+        <% else %>
+          <em>Select many.</em>
+        <% end %>
+      </p>
+      <!-- CHOICES -->
+      <ol>
+        <% question.choices.each do |choice| %>
+          <li><%= choice.body %></li>
+        <% end %>
+      </ol>
+      <!-- REMOVE BTN -->
+      <p><%= link_to "Remove Question",
+                     survey_question_path(survey.id, question.id),
+                     {:method => :delete}
+         %></p>
+    <% end %>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%= link_to "Finish Building Survey and Return",
+            surveys_path,
+            {class: "btn btn-primary btn-block btn-lg"}
+%>

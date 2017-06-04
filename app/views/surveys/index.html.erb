@@ -1,0 +1,41 @@
+<h1 class="text-center">
+  Surveyor: <br>
+  Tell Me #allthethings!
+</h1>
+
+<p class="lead">Click on a survey below to take it or create one of your own!</p>
+
+<%= link_to "Create a New Survey",
+            new_survey_path,
+            {:class => "btn btn-primary btn-lg btn-block"}
+%>
+
+<h2><u>Take a Survey</u></h2>
+
+<% unless @surveys.empty? %>
+  <% @surveys.each do |survey| %>
+    <h3>
+      <%= survey.title %>
+      <small>
+        <%= link_to "[Add Question]", new_survey_question_path(survey.id) %>
+      </small>
+    </h3>
+    <p><%= survey.description %></p>
+    <% responses = @surveys_responses[survey.id] %>
+    <p><i><%= responses || "0" %>
+          <%= "Response".pluralize(responses || 0) %>
+       </i>
+    </p>
+    <%= link_to "Take Survey",
+                survey_path(survey.id),
+                {:class => "btn btn-default"}
+    %>
+    <%= link_to "View Results",
+                "#",
+                {:class => "btn btn-default"}
+    %>
+    <hr>
+  <% end %>
+<% else %>
+  <h4 class="text-center bg-warning">No surveys yet</p>
+<% end %>

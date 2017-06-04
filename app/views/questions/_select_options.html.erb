@@ -1,0 +1,35 @@
+<h5 class="text-center">
+  <span>1. Select Options</span> |
+  <span class="text-muted">2. Add Question Text</span>
+</h5>
+
+<%= form_for [:survey, question] do |f| %>
+  <div class="form-group">
+    <p><%= label_tag :number_of_choices, "How many options should the question have?" %></p>
+    <%= select_tag :number_of_choices,
+                   options_for_select((1..10).map{|i| [i, i]})
+    %>
+  </div>
+
+  <div class="form-group">
+    <p><i>How many options can be selected?</i></p>
+    <%= f.radio_button :input_type, :radio %>
+    <%= f.label :input_type, "Just one" %>
+    <br>
+    <%= f.radio_button :input_type, :checkbox %>
+    <%= f.label :input_type, "Multiple" %>
+  </div>
+
+  <div class="form-group">
+    <p><i>Is the question required?</i></p>
+    <%= f.radio_button :is_required, true %>
+    <%= f.label :is_required, "Yes" %>
+    <br>
+    <%= f.radio_button :is_required, false %>
+    <%= f.label :is_required, "No" %>
+  </div>
+
+  <%= f.button "Continue to the Next Step",
+               {:class => "btn btn-primary btn-lg btn-block"}
+  %>
+<% end %>

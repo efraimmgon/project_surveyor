@@ -1,0 +1,33 @@
+<% n = 0 %>
+
+<h5 class="text-center">
+  <span class="text-muted">1. Select Options</span> |
+  <span>2. Add Question Texts</span>
+</h5>
+<p><i>Next, add the text for each of your options.</i></p>
+
+<%= form_for [:survey, question] do |f| %>
+  <input type="hidden" name="setup_done" value="true">
+  <div class="form-group">
+    <h4>What is your question?</h4>
+    <%= f.text_field :body,
+    {:placeholder => "eg. ‘Who does Number Two work for?’",
+      :class => "form-control"}
+      %>
+  </div>
+
+  <%= f.fields_for :choices do |cf| %>
+    <div class="form-group">
+      <h4>Option <%= n += 1 %></h4>
+      <%= cf.text_field :body,
+                        {:placeholder => "eg. ‘Dr. Evil’",
+                         :class => "form-control"} %>
+    </div>
+  <% end %>
+
+  <%= f.button "Add Question", {:class => "btn btn-primary btn-block"} %>
+<% end %>
+
+<br>
+
+<%= link_to "Back to previous step", @last_url %>
