@@ -1,0 +1,43 @@
+<h1 class="text-center">Survey Taker:</h1>
+
+<hr>
+
+<h3 class="text-center"><%= @survey.title %></h3>
+<p class="lead"><%= @survey.description %></p>
+
+<p class="text-info">Questions marked with an asterisk (*) are required</p>
+
+<% n = 0 %>
+<%= form_for @survey, url: survey_responses_path(@survey.id), method: :post do |survey_form| %>
+  <%= render partial: "shared/form_errors", locals: {obj: @response} %>
+  <%= survey_form.fields_for :questions do |question_form| %>
+    <% question = question_form.object %>
+    <!-- QUESTION -->
+    <h4>
+      <%= "*" if question.is_required %>
+      <%= n += 1 %>.
+      <%= question.body %>
+    </h4>
+    <!-- CHOICES -->
+    <ul>
+      <% if question.input_type == "radio" %>
+        <%= question_form.hidden_field :question_id, value: question.id %>
+        <%= question_form.collection_radio_buttons :id, question.choices, :id, :body, {}, {required: question.is_required} do |b| %>
+        <div class="form-group">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </div>
+        <% end %>
+      <% elsif question.input_type == "checkbox" %>
+        <%= question_form.collection_check_boxes :choice_ids, question.choices, :id, :body do |b| %>
+        <div class="form-group">
+          <%= b.check_box(checked: false) %>
+          <%= b.label %>
+        </div>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= survey_form.button "Submit your Survey", class: "btn btn-primary btn-lg btn-block" %>
+<% end %>

@@ -7,6 +7,6 @@ class CreateResponses < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :responses, [:question_id, :choice_id], :unique => true
+    add_index :responses, [:question_id, :choice_id]
   end
 end

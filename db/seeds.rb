@@ -13,31 +13,35 @@ Choice.delete_all
 Response.delete_all
 
 # create the surveys
-10.times do
+2.times do
   params = {title: Faker::Lorem.sentence,
             description: Faker::Lorem.sentences(2).join(" ")}
   Survey.create(params)
 end
 
 # create the questions
-20.times do
+6.times do
   params = {:body => Faker::Lorem.sentence,
-            :input_type => ["radio, checkbox"].sample,
+            :input_type => ["radio", "checkbox"].sample,
             :is_required => [true, false].sample,
             :survey_id => Survey.pluck(:id).sample}
   Question.create(params)
 end
 
 # create the choices
-40.times do
+12.times do
   params = {:question_id => Question.pluck(:id).sample,
             :body => Faker::Lorem.sentence}
   Choice.create(params)
 end
 
 # create the responses
-40.times do
-  params = {:question_id => Question.pluck(:id).sample,
-            :choice_id => Choice.pluck(:id).sample}
-  Response.create(params)
+12.times do
+  question = Question.all.sample
+  params = {:question_id => question.id,
+            :choice_id => question.choices.sample.id}
+  begin
+    Response.create(params)
+  rescue ActiveRecord::RecordNotUnique
+  end
 end

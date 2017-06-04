@@ -5,6 +5,11 @@ class SurveysController < ApplicationController
     @surveys_responses = @surveys.joins(:responses).group("surveys.id").count.to_h
   end
 
+  def show
+    @survey = Survey.find(params[:id])
+    @response = Response.new
+  end
+
   def new
     @survey = Survey.new
   end

@@ -1,0 +1,29 @@
+<h1 class="text-center">Survey Results:</h1>
+
+<hr>
+
+<h3 class="text-center"><%= @survey.title %></h3>
+<p class="lead"><%= @survey.description %></p>
+
+<% count = @survey.responses.count %>
+<p><em><%= count %>
+       <%= "Response".pluralize(count) %></em></p>
+
+<% @survey.questions.each_with_index do |question, i| %>
+  <h4>
+    <%= i + 1 %>.
+    <%= question.body %>
+  </h4>
+  <table class="table table-bordered">
+    <tr>
+      <th>Response</th>
+      <th>Count</th>
+    </tr>
+    <% question.choices.each do |choice| %>
+      <tr>
+        <td><%= choice.body %></td>
+        <td><%= choice.responses.count %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

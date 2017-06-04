@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170602133450) do
     t.integer  "choice_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["question_id", "choice_id"], name: "index_responses_on_question_id_and_choice_id", unique: true, using: :btree
+    t.index ["question_id", "choice_id"], name: "index_responses_on_question_id_and_choice_id", using: :btree
   end
 
   create_table "surveys", force: :cascade do |t|
